@@ -104,9 +104,10 @@ section .data
 		WholeStep	dd  0	;minimum run length
 		XAdvance	dd  0	;1 or -1, for direction in which X advances
 		XStart		dd  0
-		YStart		dd  0
-		XEnd		dd  0
-		YEnd		dd  0
+YStart		dd  0
+XEnd_ dd 0
+YEnd dd 0
+
 
 section .text
 ; Fast run length slice line drawing implementation for mode 0x13, the VGA's
@@ -132,7 +133,7 @@ gr_linear_line:
 	mov	ecx,[esp+32]
 	mov	[XStart], eax
 	mov	[YStart], edx
-	mov	[XEnd], ebx
+	mov	[XEnd_], ebx
 	mov	[YEnd], ecx
 
 	mov	ebp, [_gr_var_bwidth]
@@ -146,7 +147,7 @@ gr_linear_line:
 	xchg	[YEnd], eax    ;swap endpoints
 	mov	[YStart], eax
 	mov	ebx, [XStart]
-	xchg	[XEnd], ebx
+	xchg	[XEnd_], ebx
 	mov	[XStart], ebx
 
 LineIsTopToBottom:
@@ -168,7 +169,7 @@ LineIsTopToBottom:
 ; horizontally. In the process, special-case vertical lines, for speed and
 ; to avoid nasty boundary conditions and division by 0.
 
-	mov	edx, [XEnd]
+	mov	edx, [XEnd_]
 	sub     edx, esi        ;XDelta
 	jnz     NotVerticalLine ;XDelta == 0 means vertical line
 							;it is a vertical line

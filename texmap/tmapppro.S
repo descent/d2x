@@ -122,7 +122,7 @@
 // dzdx to z, and finally puts 64 back onto the stack. At the end of
 // the macro, the stack contains: 64, z, u, v.
 
-.macro DoFPCalcs 0		// The FP stack after each instruction:
+.macro DoFPCalcs 		// The FP stack after each instruction:
 				//		 64/z  z    u    v
 	fst	%st(4)		//		 64/z  z    u    v  64/z
 	fxch	%st(2)		//		   u   z  64/z   v  64/z
